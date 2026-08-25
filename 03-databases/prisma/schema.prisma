@@ -1,0 +1,128 @@
+// ─────────────────────────────────────────────────────────────────────────
+// Phase 03 schema — ONE schema per phase (like one per service in real life).
+// Topics build on shared domains instead of fighting multiple generated clients.
+//
+// Regenerate the client after any change:
+//   pnpm db:generate
+// Push to a running database (tests do this automatically):
+//   DATABASE_URL=postgres://... pnpm db:push
+// ─────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Domain: library (topic 01 — SQL fundamentals) ────────────────────────
+
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
+  posts Post[]
+}
+
+model Book {
+  id       Int    @id @default(autoincrement())
+  title    String
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
+  loans    Loan[]
+
+  @@index([authorId])
+}
+
+model Borrower {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+  loans Loan[]
+}
+
+model Loan {
+  id         Int        @id @default(autoincrement())
+  bookId     Int
+  borrowerId Int
+  borrowedAt DateTime   @db.Timestamptz
+  returnedAt DateTime?  @db.Timestamptz
+  book       Book       @relation(fields: [bookId], references: [id])
+  borrower   Borrower   @relation(fields: [borrowerId], references: [id])
+
+  @@index([bookId])
+  @@index([borrowerId])
+}
+
+// ── Domain: blog (topics 02 & 03) ────────────────────────────────────────
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  title      String
+  published  Boolean    @default(false)
+  createdAt  DateTime   @default(now())
+  authorId   Int
+  author     Author     @relation(fields: [authorId], references: [id])
+  comments   Comment[]
+  tags       PostTag[]
+}
+
+model Tag {
+  id    Int       @id @default(autoincrement())
+  name  String    @unique
+  posts PostTag[]
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  body      String
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+
+  @@index([postId])
+}
+
+// ── Domain: ticketing (topic 04 — concurrency lab) ───────────────────────
+
+model Seat {
+  id         Int       @id @default(autoincrement())
+  showtimeId Int
+  label      String
+  status     String    @default("free") // free | held
+  heldBy     String?
+  heldUntil  DateTime? @db.Timestamptz
+  version    Int       @default(0)
+
+  @@unique([showtimeId, label])
+}
+
+// ── Domain: banking lab (topic 04 — deadlocks & retries) ─────────────────
+
+model Account {
+  id      Int    @id @default(autoincrement())
+  owner   String @unique
+  balance Int // cents
+}
+
+// ── Domain: analytics (topic 03 — index lab) ─────────────────────────────
+
+model PageEvent {
+  id        BigInt   @id @default(autoincrement())
+  path      String
+  status    String // success | error | bot
+  ms        Int
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  @@index([createdAt])
+}
