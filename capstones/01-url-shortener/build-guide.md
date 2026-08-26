@@ -101,3 +101,7 @@ The senior move: redirects NEVER await DB writes.
 
 **Resume bullet shape:**
 *"URL shortener (NestJS/Postgres/Redis/BullMQ): queue-buffered click analytics off the redirect hot path, jittered-TTL cache-aside at p95 <15ms (k6-verified), OTel-traced; React ops dashboard."*
+
+## Answer key
+
+A complete reference implementation lives in [solution/](solution/) — standalone NestJS app, ports-and-adapters with in-memory default wiring (full suite runs offline via `pnpm install && pnpm test`), production adapters behind env switches, and a README mapping every milestone above to the code and tests that prove it. Attempt each milestone yourself first; read it to unblock, not to copy.

@@ -64,3 +64,7 @@ Notification service consuming order events (email stub + webhook via your flags
 
 **Resume bullet shape:**
 *"6-service commerce platform (NestJS/Kafka/k8s): saga-orchestrated checkouts with compensations, transactional-outbox→Kafka pipeline, per-service deploys, OTel cross-service traces; chaos drills prove convergence under broker/payment failures."*
+
+## Answer key
+
+A complete reference implementation lives in [solution/](solution/) — standalone NestJS app, ports-and-adapters with in-memory default wiring (full suite runs offline via `pnpm install && pnpm test`), production adapters behind env switches, and a README mapping every milestone above to the code and tests that prove it. Attempt each milestone yourself first; read it to unblock, not to copy.

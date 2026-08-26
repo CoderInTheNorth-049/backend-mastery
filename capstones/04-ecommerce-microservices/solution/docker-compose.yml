@@ -1,0 +1,21 @@
+# Single deployable hosting three strictly separated bounded contexts.
+# Scaling story: extract each context into its own service (see README
+# "Why single-deployable"), give this file one entry per service with its
+# own database container, and swap MemEventBus for Redis Streams/Kafka.
+services:
+  commerce:
+    build: .
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: "3004"
+      LOG_LEVEL: info
+      PAYMENT_LIMIT_CENTS: "50000"
+      STOCK_SEED: '{"SKU-1":10,"SKU-2":5}'
+      PRICES: '{"SKU-1":1500,"SKU-2":24000}'
+      AUTO_RELAY_MS: "100"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3004/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

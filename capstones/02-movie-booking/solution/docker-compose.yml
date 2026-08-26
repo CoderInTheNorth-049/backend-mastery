@@ -1,0 +1,26 @@
+# Zero-cloud local Postgres for exercising the real adapter.
+#
+#   docker compose up -d postgres
+#   DATABASE_URL=postgres://postgres:postgres@localhost:5432/movie_booking \
+#     psql "$DATABASE_URL" -f db/migrations/0001_init.sql   # optional: schema by hand
+#   DATABASE_URL=postgres://postgres:postgres@localhost:5432/movie_booking pnpm test:pg
+#   DATABASE_URL=postgres://postgres:postgres@localhost:5432/movie_booking pnpm start
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: movie_booking
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d movie_booking"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

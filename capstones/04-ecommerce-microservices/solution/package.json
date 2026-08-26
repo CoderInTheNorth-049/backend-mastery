@@ -1,0 +1,34 @@
+{
+  "name": "backend-mastery-capstone-4-solution",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11",
+    "@nestjs/core": "^11",
+    "@nestjs/platform-express": "^11",
+    "pino": "^10",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.16",
+    "@types/express": "^5",
+    "@types/node": "^22",
+    "@types/supertest": "^6",
+    "@nestjs/testing": "^11",
+    "typescript": "~5.6",
+    "unplugin-swc": "^1.5.11",
+    "supertest": "^7",
+    "vite": "^6",
+    "vitest": "^3.2"
+  }
+}

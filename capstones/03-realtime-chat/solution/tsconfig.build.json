@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  // Tests stay out of the artifact; with them gone the only root left is
+  // src/, so tsc emits dist/main.js (not dist/src/main.js).
+  "exclude": ["test/**/*", "**/*.spec.ts", "dist"]
+}

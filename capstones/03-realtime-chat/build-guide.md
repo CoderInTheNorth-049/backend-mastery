@@ -49,3 +49,7 @@ WS server with JWT verification during upgrade handshake; connection registry ke
 
 **Resume bullet shape:**
 *"Realtime chat hub (WS/Redis/BullMQ): write-behind durability with dedupe keys, TTL presence, reconnect replay windows; 500 concurrent sockets at p95 <80ms in committed load tests."*
+
+## Answer key
+
+A complete reference implementation lives in [solution/](solution/) — standalone NestJS app, ports-and-adapters with in-memory default wiring (full suite runs offline via `pnpm install && pnpm test`), production adapters behind env switches, and a README mapping every milestone above to the code and tests that prove it. Attempt each milestone yourself first; read it to unblock, not to copy.

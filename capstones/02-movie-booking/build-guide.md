@@ -61,3 +61,7 @@ Implement seat holds behind a strategy flag:
 - [ ] Coverage ≥70% including lock paths; state-machine diagram + ERD committed
 - [ ] Resume bullet survives follow-ups:
   *"Booking engine eliminating oversell via SELECT FOR UPDATE + optimistic-version strategies behind a flag; idempotent confirms with outbox-style event capture; k6 contention report."*
+
+## Answer key
+
+A complete reference implementation lives in [solution/](solution/) — standalone NestJS app, ports-and-adapters with in-memory default wiring (full suite runs offline via `pnpm install && pnpm test`), production adapters behind env switches, and a README mapping every milestone above to the code and tests that prove it. Attempt each milestone yourself first; read it to unblock, not to copy.

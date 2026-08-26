@@ -1,0 +1,57 @@
+# Real-adapters mode: `docker compose up` then hit http://localhost:3001/healthz.
+# The app service boots with DATABASE_URL + REDIS_URL set, which flips the
+# composition root from in-memory adapters to pg/redis/bullmq.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shortener
+      POSTGRES_PASSWORD: shortener
+      POSTGRES_DB: shortener
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shortener -d shortener"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      PORT: "3001"
+      DATABASE_URL: postgres://shortener:shortener@postgres:5432/shortener
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  migrate:
+    image: postgres:16-alpine
+    # One-shot: apply db/migrations against the fresh database, then exit.
+    entrypoint: >
+      sh -c 'for f in /migrations/*.sql; do
+        psql "$${DATABASE_URL}" -v ON_ERROR_STOP=1 -f "$$f" || exit 1;
+      done'
+    environment:
+      DATABASE_URL: postgres://shortener:shortener@postgres:5432/shortener
+    volumes:
+      - ./db/migrations:/migrations:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
