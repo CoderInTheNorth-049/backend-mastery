@@ -32,7 +32,7 @@
 HTTP 404 → SDK raises NoSuchKey. Absence-as-error means callers MUST catch-and-translate — your wrapper turning it into null IS the product surface.</details>
 
 <details><summary>2. What does least privilege look like for a doc-store service?</summary>
-s3:GetObject/PutObject/DeleteObject on <code>arn:aws:s3:::bucket/*</code> ONLY — no ListAll, no other buckets, no s3:* . Scope per env role.</details>
+s3:GetObject/PutObject/DeleteObject on `arn:aws:s3:::bucket/*` ONLY — no ListAll, no other buckets, no s3:* . Scope per env role.</details>
 
 <details><summary>3. Two SQS sends with identical MessageDeduplicationId within 5 min on a FIFO queue?</summary>
 Second is accepted but NOT enqueued (dedupe window). That's a feature for idempotent producers — and a footgun if ids collide accidentally.</details>

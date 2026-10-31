@@ -31,7 +31,7 @@
 ## Self-check quiz
 
 <details><summary>1. Client needs "orders filtered by status=paid, newest first, page 2". Sketch URI + response envelope.</summary>
-GET /orders?status=paid&sort=-created_at&cursor=<opaque>&limit=50 → {data:[...], nextCursor:"..."|null}. Cursor from prior response; never client-computed offsets.
+`GET /orders?status=paid&sort=-created_at&cursor=<opaque>&limit=50` → {data:[...], nextCursor:"..."|null}. Cursor from prior response; never client-computed offsets.
 </details>
 
 <details><summary>2. Where does the idempotency key live, what does server do on replay, TTL?</summary>

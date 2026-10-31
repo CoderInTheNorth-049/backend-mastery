@@ -7,7 +7,7 @@ Your standards only protect the codebase if they run AUTOMATICALLY on every PR. 
 Create [submission/lint-and-test.yml](submission/lint-and-test.yml) implementing:
 
 1. **Triggers**: `push` (branches `[main]`) AND `pull_request`.
-2. **Concurrency**: group referencing `${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: true`.
+2. **Concurrency**: group referencing <code v-pre>${{ github.workflow }}-${{ github.ref }}</code>, `cancel-in-progress: true`.
 3. **`lint` job** (ubuntu-latest): checkout (`actions/checkout@v4`) → a run step executing `pnpm lint`.
 4. **`test` job**:
    - matrix over Node `20` and `22`
@@ -20,7 +20,7 @@ Create [submission/lint-and-test.yml](submission/lint-and-test.yml) implementing
 ## Hints (open only when stuck)
 
 <details><summary>Matrix shape</summary>
-jobs.test.strategy.matrix.node: [20, 22]; then node-version: "${{ matrix.node }}" inside setup-node. Quote expressions to be safe.
+jobs.test.strategy.matrix.node: [20, 22]; then node-version: <code v-pre>"${{ matrix.node }}"</code> inside setup-node. Quote expressions to be safe.
 </details>
 
 <details><summary>Bare keys</summary>

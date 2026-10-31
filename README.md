@@ -22,6 +22,19 @@ Built for a React + JavaScript developer who wants backend depth on their resume
 
 > **Resource policy:** every linked resource is free and open access. Paid items are only ever marked 💰 as optional extras — never required. See [docs/resource-policy.md](docs/resource-policy.md).
 
+## Browse this curriculum as a website
+
+The Markdown docs are also available as a local VitePress site with a sidebar, search, dark mode, and previous/next navigation:
+
+```bash
+pnpm install
+pnpm docs:dev      # http://localhost:5173
+pnpm docs:build    # static site in .vitepress/dist
+pnpm docs:preview  # preview the production build
+```
+
+The site excludes answer keys under `solution/` folders. Links to source files that are not part of the rendered pages will point outside the site.
+
 ## How assignments work
 
 Every topic folder follows the same layout:

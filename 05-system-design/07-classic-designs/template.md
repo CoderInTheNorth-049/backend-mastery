@@ -1,4 +1,4 @@
-# Design doc — <SYSTEM NAME>
+# Design doc — `<SYSTEM NAME>`
 
 > Author · Date · Status (draft/reviewed)
 > Time-boxed attempt? ☐ 40min fresh / ☐ revision pass

@@ -25,7 +25,7 @@ In [src/container.ts](src/container.ts):
 @Injectable stores a marker via Reflect.defineMetadata(MARKER, true, target). resolve() checks marker FIRST for the friendliest errors.</details>
 
 <details><summary>Hint 2 — circular</summary>
-Maintain an in-progress Set<Constructor>. Add token before resolving deps, delete in finally. Seeing the token again mid-flight = cycle. The finally is what keeps state clean after throwing (contract #5).</details>
+Maintain an in-progress `Set<Constructor>`. Add token before resolving deps, delete in finally. Seeing the token again mid-flight = cycle. The finally is what keeps state clean after throwing (contract #5).</details>
 
 <details><summary>Hint 3 — metadata</summary>
 const params: unknown[] = Reflect.getMetadata("design:paramtypes", target) ?? []; Filter/map each to this.resolve(dep as Constructor). An undefined entry means untyped/interface param → contract #8's error path.</details>
